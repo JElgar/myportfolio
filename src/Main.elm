@@ -6,6 +6,14 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Url
 
+-- GLOBAL STYLES
+
+grey : String
+grey = "rgb(51,51,51)"
+
+pink : String
+pink = "rgb(255,32,207)"
+
 -- MAIN
 
 main : Program () Model Msg
@@ -64,37 +72,103 @@ view model =
   { title = "Hello"
   , body = 
     [ 
-    ul []
-      [ viewLink "home"
-      , viewLink "dev"
-      , viewLink "events"
-      , viewLink "tutoring"
+     div [
+         style "font-family" "'Montserrat', sans-serif" 
+       
+       ] [
+      node "link" [ href "https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700&display=swap", rel "stylesheet" ] []
+      , div [style "width" "100%", style "height" "140px"] [
+          ul [
+            style "float" "right"
+          , style "margin-right" "33px"
+          , style "margin-top" "40px"
+          ]
+          [ viewLink "home"
+          , viewLink "dev"
+          , viewLink "events"
+          , viewLink "tutoring"
+          ]
+        ]
+      , div [ style "margin-left" "12%"
+            , style "padding-top" "50px"
+        
+        ] [
+          h3 [ style "margin-top" "0px"
+             , style "font-weight" "500"
+             , style "font-size" "56px"
+             , style "color" grey
+
+            ] [text "James Elgar"]
+        , roleTitle "Full Stack Developer"
+        , roleTitle "Event Technician"
+        , roleTitle "Tutor"
+        , div [] [
+            ul [ style "padding" "0px"
+               , style "padding-top" "40px"
+                 
+            ] [
+              contactLink "github" "github.com/Jelgar"
+            , contactLink "phone" ""
+            , contactLink "linkedin" "https://www.linkedin.com/in/james-elgar-768501170/"
+            , contactLink "facebook" "https://www.facebook.com/james.elgar.75?ref=bookmarks"
+            , contactLink "mail" "mailto:jamesnelgar@gmail.com?subject=\"Hi James!\""
+            ]
+            , div [ style "position" "absolute"
+                  , style "right" "75px"
+                  , style "bottom" "50px"
+              
+              ] [
+                div [ style "color" pink
+                    , style "background-color" "white"
+                    , style "border" ( "6px solid " ++ pink)
+                    , style "font-size" "42px"
+                    , style "font-weight" "600"
+                    , style "text-align" "center"
+                    , style "height" "80px"
+                    , style "width" "240px"
+                    , style "border-radius" "80px"
+
+                  
+                  ] [
+                    p [ style "margin" "0px"
+                      , style "margin-top" "15px"
+                      
+                      ] [text "My CV"]]
+
+              ]
+            ]
+          ]
+       ]
       ]
-    , div [] [
-        h3 [] [text "James Elgar"]
-      , h1 [] [text "Full Stack Developer"]
-      , h1 [] [text "Event Technician"]
-      , h1 [] [text "Tutor"]
-      ]
-    , ul [] [
-        contactLink "github" "github.com/Jelgar"
-      , contactLink "phone" ""
-      , contactLink "linkedin" "https://www.linkedin.com/in/james-elgar-768501170/"
-      , contactLink "facebook" "https://www.facebook.com/james.elgar.75?ref=bookmarks"
-      , contactLink "mail" "mailto:jamesnelgar@gmail.com?subject=\"Hi James!\""
-      ]
-    , div [] [
-        button [] [text "My CV"]
-      ]
-    ]
   }
   
 viewLink : String -> Html msg
 viewLink path = 
-  li [] [ a [ href ("/" ++ path) ] [ text path ]]
+  li [ style "display" "inline-block" 
+     , style "margin-right" "42px"
+     , style "color" "black"
+     , style "font-size" "32px"
+     ] 
+     [ a [ href ("/" ++ path), style "text-decoration" "none", style "color" "black" ] [ text path ]]
 
 contactLink : String -> String -> Html msg
 contactLink imagepath linkpath =
-  li [] [a [href linkpath] [
-      object [style "pointer-events" "none", type_ "image/svg+xml", attribute "data" ("assets/contact/" ++ imagepath ++ ".svg")] []
+  li [ style "display" "inline-block" 
+     , style "margin-right" "150px"
+  ] [a [href linkpath, style "text-decoration" "none", style  "color" "rgb(51,51,51)"] [
+      object [ style "pointer-events" "none"
+             , style "height" "100px"
+             , style "color" "rgb(51,51,51)"
+             , type_ "image/svg+xml"
+             , attribute "data" ("assets/contact/" ++ imagepath ++ ".svg")
+             ] []
     ]]
+
+roleTitle : String -> Html msg
+roleTitle roleTitleText = 
+  h1 [ style "font-size" "100px"
+     , style "font-weight" "700"
+     , style "margin-top" "30px"
+     , style "margin-bottom" "0px"
+    ] [text roleTitleText]
+

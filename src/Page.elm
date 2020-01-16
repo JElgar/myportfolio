@@ -37,8 +37,10 @@ view page {title, content} =
                 [
                   html imports
                 , html (viewHeader page)
-                , content
-                , html viewCVButton
+                , row [Element.width fill, Element.height fill] [
+                           content
+                         , html viewCVButton
+                         ]
                 ]
         ]
       }

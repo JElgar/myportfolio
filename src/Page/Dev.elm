@@ -9,13 +9,13 @@ import Element.Events exposing (..)
 import Element.Font as Font
 import Element.Input as Input
 
+import Styles exposing (getColor)
+
 skillsSection : Element msg
 skillsSection = 
     column
       [ height fill
       , width <| fillPortion 1
-      , Background.color <| rgb255 92 99 118
-      , Font.color <| rgb255 255 255 255
       ]
       [
         text "Skills" 
@@ -26,12 +26,20 @@ projectsSection : Element msg
 projectsSection =
   column 
     [ height fill
-    , Background.color <| rgb255 50 50 50
-    , width <| fillPortion 3
+    , width <| fillPortion 2
     ]
     [
       text "Projects"
     ]
+
+divider : Element msg
+divider = 
+  el [ width (px 7)
+     , height (px 140)
+     , alignTop
+     , Background.color <| (getColor Styles.Pink)
+     , Border.rounded 3
+     ] none
 
 view : { title : String, content : Element msg }
 view = 
@@ -40,6 +48,7 @@ view =
         row [ height fill, width fill ]
             [
               skillsSection
+            , divider
             , projectsSection
             ]
   }

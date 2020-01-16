@@ -24,12 +24,28 @@ view page {title, content} =
             style "font-family" "'Montserrat', sans-serif" 
           ] 
           [
-            viewHeader page
+            imports
+          , viewHeader page
           , content
+          , viewCVButton
           ]
         ]
       }
      
+imports : Html msg
+imports = 
+    div [] 
+    [
+      node "link" [ href "https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700&display=swap", rel "stylesheet" ] []
+    ]
+
+pageToString : Page -> String
+pageToString page =
+  case page of
+    Home -> "home"
+    Dev -> "dev"
+    Events -> "events"
+    Tutoring -> "tutoring"
 
 pageUnderlinePos : Page -> String
 pageUnderlinePos page =
@@ -39,6 +55,13 @@ pageUnderlinePos page =
     Events -> "291px"
     Tutoring -> "141px"
 
+pageFontWeight : String -> Page -> String
+pageFontWeight pageName actualPage = 
+  if (pageName == (pageToString actualPage)) then
+    "600"
+  else
+    "400"
+
 viewHeader : Page -> Html msg
 viewHeader page = 
       div [style "width" "100%", style "height" "140px"] [
@@ -47,10 +70,10 @@ viewHeader page =
             , style "margin-right" "33px"
             , style "margin-top" "40px"
             ]
-            [ viewLink "home"
-            , viewLink "dev"
-            , viewLink "events"
-            , viewLink "tutoring"
+            [ viewLink (pageToString Home) page
+            , viewLink (pageToString Dev) page
+            , viewLink (pageToString Events) page
+            , viewLink (pageToString Tutoring) page
           ]
           , div [ style "height" "7px"
                 , style "width" "60px"  
@@ -65,12 +88,38 @@ viewHeader page =
 
         ]
 
-viewLink : String -> Html msg
-viewLink path = 
+viewLink : String -> Page -> Html msg
+viewLink path page = 
   li [ style "display" "inline-block" 
      , style "margin-right" "42px"
      , style "color" "black"
      , style "font-size" "32px"
+     , style "font-weight" (pageFontWeight path page)
      ] 
      [ a [ href ("/" ++ path), style "text-decoration" "none", style "color" "black" ] [ text path ]]
 
+viewCVButton : Html msg
+viewCVButton = 
+            div [ style "position" "absolute"
+                  , style "right" "75px"
+                  , style "bottom" "50px"
+              
+              ] [
+                div [ style "color" pink
+                    , style "background-color" "white"
+                    , style "border" ( "6px solid " ++ pink)
+                    , style "font-size" "42px"
+                    , style "font-weight" "600"
+                    , style "text-align" "center"
+                    , style "height" "80px"
+                    , style "width" "240px"
+                    , style "border-radius" "80px"
+
+                  
+                  ] [
+                    p [ style "margin" "0px"
+                      , style "margin-top" "15px"
+                      
+                      ] [text "My CV"]]
+
+              ]

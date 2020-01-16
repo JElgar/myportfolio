@@ -18,10 +18,7 @@ view : { title : String, content : Html msg }
 view =
   { title = "Hello"
   , content = 
-     div [
-         style "font-family" "'Montserrat', sans-serif" 
-       
-       ] [
+     div [] [
       node "link" [ href "https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700&display=swap", rel "stylesheet" ] []
       , div [ style "margin-left" "12%"
             , style "padding-top" "50px"
@@ -47,31 +44,8 @@ view =
             , contactLink Icon.Facebook "https://www.facebook.com/james.elgar.75?ref=bookmarks"
             , contactLink Icon.Mail "mailto:jamesnelgar@gmail.com?subject=\"Hi James!\""
             ]
-            , div [ style "position" "absolute"
-                  , style "right" "75px"
-                  , style "bottom" "50px"
-              
-              ] [
-                div [ style "color" pink
-                    , style "background-color" "white"
-                    , style "border" ( "6px solid " ++ pink)
-                    , style "font-size" "42px"
-                    , style "font-weight" "600"
-                    , style "text-align" "center"
-                    , style "height" "80px"
-                    , style "width" "240px"
-                    , style "border-radius" "80px"
-
-                  
-                  ] [
-                    p [ style "margin" "0px"
-                      , style "margin-top" "15px"
-                      
-                      ] [text "My CV"]]
-
-              ]
-            ]
           ]
+        ]
        ]
   }
   

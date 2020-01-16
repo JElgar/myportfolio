@@ -75,19 +75,6 @@ view =
        ]
   }
   
-ocontactLink : String -> String -> Html msg
-ocontactLink imagepath linkpath =
-  li [ style "display" "inline-block" 
-     , style "margin-right" "150px"
-  ] [a [href linkpath, style "text-decoration" "none", style  "color" "rgb(51,51,51)"] [
-      object [ style "pointer-events" "none"
-             , style "height" "100px"
-             , style "color" "rgb(51,51,51)"
-             , type_ "image/svg+xml"
-             , attribute "data" ("assets/contact/" ++ imagepath ++ ".svg")
-             ] []
-    ]]
-
 contactLink : Icon.IconType -> String -> Html msg
 contactLink icon linkpath =
   li [ style "display" "inline-block" 

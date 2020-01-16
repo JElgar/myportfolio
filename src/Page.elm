@@ -18,9 +18,27 @@ view : Page ->  {title : String , content : Html msg } -> Browser.Document msg
 view page {title, content} = 
       {
         title = title
-      , body = [viewHeader page, content]
+      , body = [
+          div 
+          [
+            style "font-family" "'Montserrat', sans-serif" 
+          ] 
+          [
+            viewHeader page
+          , content
+          ]
+        ]
       }
-      
+     
+
+pageUnderlinePos : Page -> String
+pageUnderlinePos page =
+  case page of 
+    Home -> "530px"
+    Dev -> "392px"
+    Events -> "291px"
+    Tutoring -> "141px"
+
 viewHeader : Page -> Html msg
 viewHeader page = 
       div [style "width" "100%", style "height" "140px"] [
@@ -34,14 +52,15 @@ viewHeader page =
             , viewLink "events"
             , viewLink "tutoring"
           ]
-          , div [ style "height" "10px"
-                , style "width" "80px"  
+          , div [ style "height" "7px"
+                , style "width" "60px"  
                 , style "float" "right"
                 , style "border-radius" "20px"
                 , style "background-color" pink
                 , style "position" "absolute"
-                , style "top" "84px"
-                , style "right" "520px"
+                , style "top" "78px"
+                , style "transition" "right 0.5s"
+                , style "right" (pageUnderlinePos page)
             ] []
 
         ]

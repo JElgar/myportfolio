@@ -3,6 +3,13 @@ module Page.Home exposing (view)
 import Html exposing (..) 
 import Html.Attributes exposing (..)
 
+import Element as Element exposing (..)
+import Element.Background as Background
+import Element.Border as Border
+import Element.Events exposing (..)
+import Element.Font as Font
+import Element.Input as Input
+
 import Icon exposing (..)
 
 -- GLOBAL STYLES
@@ -14,39 +21,42 @@ pink : String
 pink = "rgb(255,32,207)"
 
 
-view : { title : String, content : Html msg }
+view : { title : String, content : Element.Element msg }
 view =
-  { title = "Hello"
-  , content = 
-     div [] [
-      node "link" [ href "https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700&display=swap", rel "stylesheet" ] []
-      , div [ style "margin-left" "12%"
-            , style "padding-top" "50px"
-        
-        ] [
-          h3 [ style "margin-top" "0px"
-             , style "font-weight" "500"
-             , style "font-size" "56px"
-             , style "color" grey
+  let 
+      htmlContent =
+        div [] [
+         node "link" [ href "https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700&display=swap", rel "stylesheet" ] []
+         , div [ style "margin-left" "12%"
+               , style "padding-top" "50px"
+           
+           ] [
+             h3 [ style "margin-top" "0px"
+                , style "font-weight" "500"
+                , style "font-size" "56px"
+                , style "color" grey
 
-            ] [text "James Elgar"]
-        , roleTitle "Full Stack Developer"
-        , roleTitle "Event Technician"
-        , roleTitle "Tutor"
-        , div [] [
-            ul [ style "padding" "0px"
-               , style "padding-top" "40px"
-                 
-            ] [
-              contactLink Icon.Github "github.com/Jelgar"
-            , contactLink Icon.Phone ""
-            , contactLink Icon.LinkedIn "https://www.linkedin.com/in/james-elgar-768501170/"
-            , contactLink Icon.Facebook "https://www.facebook.com/james.elgar.75?ref=bookmarks"
-            , contactLink Icon.Mail "mailto:jamesnelgar@gmail.com?subject=\"Hi James!\""
-            ]
+               ] [Html.text "James Elgar"]
+           , roleTitle "Full Stack Developer"
+           , roleTitle "Event Technician"
+           , roleTitle "Tutor"
+           , div [] [
+               ul [ style "padding" "0px"
+                  , style "padding-top" "40px"
+                    
+               ] [
+                 contactLink Icon.Github "github.com/Jelgar"
+               , contactLink Icon.Phone ""
+               , contactLink Icon.LinkedIn "https://www.linkedin.com/in/james-elgar-768501170/"
+               , contactLink Icon.Facebook "https://www.facebook.com/james.elgar.75?ref=bookmarks"
+               , contactLink Icon.Mail "mailto:jamesnelgar@gmail.com?subject=\"Hi James!\""
+               ]
+             ]
+           ]
           ]
-        ]
-       ]
+  in
+  { title = "Hello"
+  , content = html htmlContent
   }
   
 contactLink : Icon.IconType -> String -> Html msg
@@ -63,5 +73,5 @@ roleTitle roleTitleText =
      , style "font-weight" "700"
      , style "margin-top" "30px"
      , style "margin-bottom" "0px"
-    ] [text roleTitleText]
+    ] [Html.text roleTitleText]
 

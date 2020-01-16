@@ -5,6 +5,13 @@ import Html.Attributes exposing (..)
 
 import Browser exposing (Document)
 
+import Element exposing (..)
+import Element.Background as Background
+import Element.Border as Border
+import Element.Events exposing (..)
+import Element.Font as Font
+import Element.Input as Input
+
 type Page
   = Home
   | Dev
@@ -14,21 +21,25 @@ type Page
 pink : String
 pink = "rgb(255,32,207)"
 
-view : Page ->  {title : String , content : Html msg } -> Browser.Document msg
+view : Page ->  {title : String , content : Element msg } -> Browser.Document msg
 view page {title, content} = 
       {
         title = title
       , body = [
-          div 
-          [
-            style "font-family" "'Montserrat', sans-serif" 
-          ] 
-          [
-            imports
-          , viewHeader page
-          , content
-          , viewCVButton
-          ]
+          layout [] <|
+            column [ 
+                  Element.height fill
+                , Element.width fill
+                , Font.family [ Font.typeface "Montserrat"
+                              , Font.sansSerif
+                              ]
+                ] 
+                [
+                  html imports
+                , html (viewHeader page)
+                , content
+                , html viewCVButton
+                ]
         ]
       }
      
@@ -96,7 +107,7 @@ viewLink path page =
      , style "font-size" "32px"
      , style "font-weight" (pageFontWeight path page)
      ] 
-     [ a [ href ("/" ++ path), style "text-decoration" "none", style "color" "black" ] [ text path ]]
+     [ a [ href ("/" ++ path), style "text-decoration" "none", style "color" "black" ] [ Html.text path ]]
 
 viewCVButton : Html msg
 viewCVButton = 
@@ -120,6 +131,6 @@ viewCVButton =
                     p [ style "margin" "0px"
                       , style "margin-top" "15px"
                       
-                      ] [text "My CV"]]
+                      ] [Html.text "My CV"]]
 
               ]

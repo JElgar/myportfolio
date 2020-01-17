@@ -19,18 +19,9 @@ getColor color =
     Black -> rgb255 0 0 0
 
 --- FONTS
--- Size
-
-type MyFontSize
-  = Header
-  | SubHeader
-  | Big
-  | Small
 
 -- WEIGHTS
 
-{- 
-OOPPS I think this already exists lol -> read the docs 
 type MyWeight
   = Light
   | Regular
@@ -38,6 +29,4 @@ type MyWeight
   | Bold
   | Black
 
-getFontWeight : MyWeight -> 
-
--} 
+getFontWeight : My

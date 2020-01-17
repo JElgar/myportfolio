@@ -16,9 +16,10 @@ skillsSection =
     column
       [ height fill
       , width <| fillPortion 1
+      , padding 20
       ]
       [
-        text "Skills" 
+        el [Font.semiBold] <| text "Skills" 
       ]
 
 -- This may become projects and experience with like a nice button ting 
@@ -27,6 +28,7 @@ projectsSection =
   column 
     [ height fill
     , width <| fillPortion 2
+    , padding 20
     ]
     [
       text "Projects"

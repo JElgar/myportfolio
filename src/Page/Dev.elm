@@ -9,17 +9,19 @@ import Element.Events exposing (..)
 import Element.Font as Font
 import Element.Input as Input
 
-import Styles exposing (getColor)
+import Styles exposing (getColor, getFontSize)
+import Icon exposing (..)
 
 skillsSection : Element msg
 skillsSection = 
     column
       [ height fill
-      , width <| fillPortion 1
-      , padding 20
+      , width <| fillPortion 2
+      , paddingXY 120 10
       ]
       [
-        el [Font.semiBold] <| text "Skills" 
+        el [Font.size (getFontSize Styles.Header), Font.medium] (text "Skills")
+      , collapsible "GoLang" "I like golang"
       ]
 
 -- This may become projects and experience with like a nice button ting 
@@ -28,10 +30,11 @@ projectsSection =
   column 
     [ height fill
     , width <| fillPortion 2
-    , padding 20
+    , paddingXY 70 10
+    , Font.medium
     ]
     [
-      text "Projects"
+      el [Font.size (getFontSize Styles.Header), Font.medium] (text "Projects")
     ]
 
 divider : Element msg
@@ -54,3 +57,17 @@ view =
             , projectsSection
             ]
   }
+
+collapsible : String -> String -> Element msg
+collapsible title content = 
+  column 
+  []
+  [
+    row []
+    [ 
+      el [] (html (Icon.view Arrow {color= (Styles.getHTMLColor (getColor Styles.Pink)), swidth= "3", h= "10px", w= "10px"}))
+    , el [] (text title)     
+    ]         
+  , el [] (text content)
+  ]
+

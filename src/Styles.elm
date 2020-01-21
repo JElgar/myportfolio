@@ -18,14 +18,26 @@ getColor color =
     Grey -> rgb255 51 51 51
     Black -> rgb255 0 0 0
 
+getHTMLColor : Color -> String
+getHTMLColor color = 
+  let {red, green, blue, alpha} = toRgb color
+  in
+      "rgb(" ++ (String.fromFloat red) ++ "," ++ (String.fromFloat green) ++ "," ++ (String.fromFloat blue) ++ ")"
 --- FONTS
 -- Size
 
 type MyFontSize
-  = Header
-  | SubHeader
-  | Big
-  | Small
+  = MainHeader
+  | Header
+--  | Big
+--  | Small
+
+getFontSize : MyFontSize -> Int
+getFontSize size =
+  case size of 
+    MainHeader -> 100
+    Header -> 56
+    
 
 -- WEIGHTS
 
@@ -41,3 +53,5 @@ type MyWeight
 getFontWeight : MyWeight -> 
 
 -} 
+
+

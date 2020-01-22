@@ -21,7 +21,7 @@ skillsSection =
       ]
       [
         el [Font.size (getFontSize Styles.Header), Font.medium] (text "Skills")
-      , collapsible "GoLang" "I like golang"
+      , collapsible {title="GoLang", content="Hello GoLang", collapsed=False, lbutton=Nothing, rbutton=Nothing}
       ]
 
 -- This may become projects and experience with like a nice button ting 
@@ -58,8 +58,21 @@ view =
             ]
   }
 
-collapsible : String -> String -> Element msg
-collapsible title content = 
+type alias CollapsibleButton = 
+  {
+     
+  }
+
+type alias CollapsibleContent = 
+  { title : String
+  , content : String
+  , collapsed : Bool
+  , lbutton : Maybe CollapsibleButton
+  , rbutton : Maybe CollapsibleButton
+  }
+
+collapsible : CollapsibleContent -> Element msg
+collapsible {title, content, collapsed, lbutton, rbutton} = 
   column 
   []
   [
@@ -68,6 +81,6 @@ collapsible title content =
       el [] (html (Icon.view Arrow {color= (Styles.getHTMLColor (getColor Styles.Pink)), swidth= "3", h= "10px", w= "10px"}))
     , el [] (text title)     
     ]         
-  , el [] (text content)
+  , if not collapsed then el [] (text content) else none
   ]
 

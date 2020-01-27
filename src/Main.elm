@@ -9,7 +9,7 @@ import Url.Parser as Parser exposing (Parser, (</>), int, map, oneOf, s, string)
 
 import Page 
 import Page.Home exposing (view)
-import Page.Dev as Dev exposing (view, Model)
+import Page.Dev exposing (view, Model)
 
 
 
@@ -55,9 +55,9 @@ main =
 
 -- MODEL
 
-type NewModel 
-  = Home Home.Model
-  | Dev Dev.Model
+type Model 
+  = Home
+  | Dev Page.Dev.Model
 
 
 {-
@@ -69,9 +69,15 @@ type alias Model =
 -}
 
 
+{-
 init : () -> Url.Url -> Nav.Key -> (Model, Cmd Msg)
 init flags url key = 
   ( Model key (urlToPage url), Cmd.none )
+-}
+
+init : () -> Url.Url -> Nav.Key -> (Model, Cmd Msg)
+init flags url key =
+  ( Home, Cmd.none )
 
 -- UPDATE
 
@@ -91,7 +97,7 @@ update msg model =
           ( model, Nav.load href )
 
     UrlChanged url -> 
-      ( { model | page = urlToPage url }
+      ( model 
       , Cmd.none
       )
 
@@ -104,10 +110,10 @@ subscriptions _ =
 
 view : Model -> Browser.Document Msg
 view model = 
-  case model.page of
-    Page.Home model ->
-      Page.view Page.Home (Page.Home.view model)
-    Page.View model ->
-      Page.view Page.Dev (Page.Dev.view model)
+  case model of
+    Home ->
+      Page.view Page.Home (Page.Home.view )
+    Dev devmodel ->
+      Page.view Page.Dev (Page.Dev.view devmodel)
     _  ->
       Page.view Page.Dev (Page.Dev.view {collapsed = 1})

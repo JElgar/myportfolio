@@ -54,8 +54,8 @@ divider =
      , Border.rounded 3
      ] none
 
-view : { title : String, content : Element msg }
-view = 
+view : Model -> { title : String, content : Element msg }
+view model = 
   { title = "Dev"
   , content = 
         row [ height fill, width fill ]

@@ -11,28 +11,11 @@ import Page
 import Page.Home exposing (view)
 import Page.Dev exposing (view, Model)
 
+import Session exposing (Session, navKey)
 
-
-
--- ROUTING
-
-urlToPage : Url -> Page.Page
-urlToPage url =
-  url
-    |> Parser.parse urlParser
-    |> Maybe.withDefault Page.Home
-
-urlParser : Parser (Page.Page -> a) a
-urlParser = 
-  oneOf 
-    [ Parser.map Page.Home Parser.top
-    , Parser.map Page.Dev (Parser.s "dev")
-    , Parser.map Page.Events (Parser.s "events")
-    , Parser.map Page.Tutoring (Parser.s "tutoring")
-      
-      ]
 
 -- GLOBAL STYLES
+-- Can't wait to get rid of these 
 
 grey : String
 grey = "rgb(51,51,51)"
@@ -56,8 +39,8 @@ main =
 -- MODEL
 
 type Model 
-  = Home
-  | Dev Page.Dev.Model
+  = Home Session
+  | Dev Page.Dev.Model Session
 
 
 {-
@@ -77,7 +60,7 @@ init flags url key =
 
 init : () -> Url.Url -> Nav.Key -> (Model, Cmd Msg)
 init flags url key =
-  ( Home, Cmd.none )
+  ( Home ( Session.sessionFromKey key ), Cmd.none )
 
 -- UPDATE
 
@@ -91,7 +74,7 @@ update msg model =
     LinkClicked urlRequest ->
       case urlRequest of 
         Browser.Internal url ->
-          ( model, Nav.pushUrl model.key ( Url.toString url ) )
+          ( model, Nav.pushUrl (getNavKey model) ( Url.toString url ) )
 
         Browser.External href -> 
           ( model, Nav.load href )
@@ -111,9 +94,13 @@ subscriptions _ =
 view : Model -> Browser.Document Msg
 view model = 
   case model of
-    Home ->
+    Home _ ->
       Page.view Page.Home (Page.Home.view )
-    Dev devmodel ->
+    Dev devmodel _ ->
       Page.view Page.Dev (Page.Dev.view devmodel)
-    _  ->
-      Page.view Page.Dev (Page.Dev.view {collapsed = 1})
+
+getNavKey : Model -> Nav.Key
+getNavKey model = 
+  case model of 
+    Home session -> (Session.navKey session)
+    Dev _ session -> (Session.navKey session)

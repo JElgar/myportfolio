@@ -1,4 +1,4 @@
-module Page.Dev exposing (view)
+module Page.Dev exposing (view, Model)
 
 import Html exposing (Html) 
 
@@ -12,6 +12,14 @@ import Element.Input as Input
 import Styles exposing (getColor, getFontSize)
 import Icon exposing (..)
 
+
+type alias Model = 
+  { collapsed : Maybe Int
+  }
+
+type Msg
+  = SetCollapsed (Maybe Int)
+ 
 skillsSection : Element msg
 skillsSection = 
     column
@@ -42,7 +50,7 @@ divider =
   el [ width (px 7)
      , height (px 140)
      , alignTop
-     , Background.color <| (getColor Styles.Pink)
+     , Background.color <| getColor Styles.Pink
      , Border.rounded 3
      ] none
 
@@ -59,8 +67,8 @@ view =
   }
 
 type alias CollapsibleButton = 
-  {
-     
+  { icon : IconType
+  , text : String
   }
 
 type alias CollapsibleContent = 
@@ -84,3 +92,34 @@ collapsible {title, content, collapsed, lbutton, rbutton} =
   , if not collapsed then el [] (text content) else none
   ]
 
+checkbox : Bool -> Element Msg
+checkbox collapsed =
+    Input.checkbox []
+        { onChange = onChangeCheckBox
+        , icon = Input.defaultCheckbox
+        , checked = collapsed
+        , label =
+            Input.labelRight []
+                (text "Do you want Guacamole?")
+        }
+
+onChangeCheckBox : Bool -> Msg
+onChangeCheckBox checked = 
+  case checked of 
+    True -> SetCollapsed (Just 0)
+    False -> SetCollapsed Nothing
+
+-- UPDATE 
+
+update : Msg -> Model -> ( Model, Cmd Msg)
+update msg model = 
+  case msg of
+    SetCollapsed num -> 
+      case num of 
+        Just n -> ( { model | collapsed = ( Just n ) }
+                  , Cmd.none
+                  )
+        Nothing -> ( {model | collapsed = Nothing }
+                   , Cmd.none
+                   )
+    

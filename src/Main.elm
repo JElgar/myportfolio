@@ -9,7 +9,8 @@ import Url.Parser as Parser exposing (Parser, (</>), int, map, oneOf, s, string)
 
 import Page 
 import Page.Home exposing (view)
-import Page.Dev exposing (view)
+import Page.Dev as Dev exposing (view, Model)
+
 
 
 
@@ -54,10 +55,19 @@ main =
 
 -- MODEL
 
+type NewModel 
+  = Home Home.Model
+  | Dev Dev.Model
+
+
+{-
 type alias Model = 
   { key : Nav.Key
   , page: Page.Page
+  , checked : Int
   }
+-}
+
 
 init : () -> Url.Url -> Nav.Key -> (Model, Cmd Msg)
 init flags url key = 
@@ -95,7 +105,9 @@ subscriptions _ =
 view : Model -> Browser.Document Msg
 view model = 
   case model.page of
-    Page.Home  ->
-      Page.view Page.Home Page.Home.view
+    Page.Home model ->
+      Page.view Page.Home (Page.Home.view model)
+    Page.View model ->
+      Page.view Page.Dev (Page.Dev.view model)
     _  ->
-      Page.view Page.Dev Page.Dev.view
+      Page.view Page.Dev (Page.Dev.view {collapsed = 1})

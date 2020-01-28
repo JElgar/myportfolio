@@ -5,13 +5,14 @@ import Browser.Navigation as Nav
 import Html exposing (..) 
 import Html.Attributes exposing (..)
 import Url exposing (Url)
-import Url.Parser as Parser exposing (Parser, (</>), int, map, oneOf, s, string)
 
 import Page 
-import Page.Home exposing (view)
-import Page.Dev exposing (view, Model)
+import Page.Home
+import Page.Dev
 
 import Session exposing (Session, navKey)
+
+import Route exposing (..)
 
 
 -- GLOBAL STYLES
@@ -80,9 +81,8 @@ update msg model =
           ( model, Nav.load href )
 
     UrlChanged url -> 
-      ( model 
-      , Cmd.none
-      )
+      changeRoute ( urlToRoute url ) model
+
 
 subscriptions : Model -> Sub Msg
 subscriptions _ =
@@ -104,3 +104,21 @@ getNavKey model =
   case model of 
     Home session -> (Session.navKey session)
     Dev _ session -> (Session.navKey session)
+
+getSession : Model -> Session
+getSession model = 
+  case model of 
+    Home session -> session
+    Dev _ session -> session
+
+changeRoute : Maybe Route.Route -> Model -> ( Model, Cmd Msg )
+changeRoute route model = 
+  let 
+    session = getSession model
+  in
+  case route of 
+    Nothing -> ( Home session , Cmd.none )
+    Just Route.Home -> ( Home session , Cmd.none )
+    Just Route.Dev -> ( Dev Page.Dev.initModel session , Cmd.none )
+    _ -> ( Home session , Cmd.none )
+

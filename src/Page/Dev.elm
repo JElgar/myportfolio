@@ -1,4 +1,4 @@
-module Page.Dev exposing (view, Model)
+module Page.Dev exposing (view, Model, initModel)
 
 import Html exposing (Html) 
 
@@ -12,6 +12,7 @@ import Element.Input as Input
 import Styles exposing (getColor, getFontSize)
 import Icon exposing (..)
 
+import Session exposing (..)
 
 type alias Model = 
   { collapsed : Maybe Int
@@ -19,7 +20,16 @@ type alias Model =
 
 type Msg
   = SetCollapsed (Maybe Int)
- 
+
+{--
+init : Session -> ( Model, Cmd Msg )
+init session =
+  ( {collapsed = Just 0} , Cmd.none )
+--}
+initModel : Model
+initModel =
+  { collapsed = Just 0 }
+
 skillsSection : Element msg
 skillsSection = 
     column

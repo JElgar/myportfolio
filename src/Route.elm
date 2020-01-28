@@ -1,4 +1,6 @@
 module Route exposing (..)
+import Url.Parser as Parser exposing (Parser, (</>), int, map, oneOf, s, string)
+import Url exposing (Url)
 
 -- ROUTING
 type Route
@@ -7,19 +9,18 @@ type Route
   | Events
   | Tutoring
 
-urlToPage : Url -> Page.Page
-urlToPage url =
+urlToRoute : Url -> Maybe Route
+urlToRoute url =
   url
     |> Parser.parse urlParser
-    |> Maybe.withDefault Page.Home
 
-urlParser : Parser (Page.Page -> a) a
+urlParser : Parser (Route -> a) a
 urlParser = 
   oneOf 
-    [ Parser.map Page.Home Parser.top
-    , Parser.map Page.Dev (Parser.s "dev")
-    , Parser.map Page.Events (Parser.s "events")
-    , Parser.map Page.Tutoring (Parser.s "tutoring")
+    [ Parser.map Home Parser.top
+    , Parser.map Dev (Parser.s "dev")
+    , Parser.map Events (Parser.s "events")
+    , Parser.map Tutoring (Parser.s "tutoring")
       
       ]
 
